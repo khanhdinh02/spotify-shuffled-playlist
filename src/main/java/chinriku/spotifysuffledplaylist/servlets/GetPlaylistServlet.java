@@ -1,4 +1,4 @@
-package servlets;
+package chinriku.spotifysuffledplaylist.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class LoginServlet extends HttpServlet {
+public class GetPlaylistServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -23,8 +23,14 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession(true);
-            session.get
+            String url = request.getParameter("url");
+            // get playlist
+            // Save url to session
+            HttpSession session = request.getSession();
+            session.setAttribute("url", url);
+            
+            request.setAttribute("status", 0);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
 
