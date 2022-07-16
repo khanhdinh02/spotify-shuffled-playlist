@@ -1,6 +1,6 @@
-package chinriku.spotifysuffledplaylist.servlets;
+package chinriku.spotifyshuffledplaylist.servlets;
 
-import chinriku.spotifysuffledplaylist.utils.Authorization;
+import chinriku.spotifyshuffledplaylist.utils.Authorization;
 import java.io.IOException;
 import java.net.URI;
 import javax.servlet.ServletException;

@@ -1,4 +1,4 @@
-package chinriku.spotifysuffledplaylist.servlets;
+package chinriku.spotifyshuffledplaylist.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;

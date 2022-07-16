@@ -2,7 +2,7 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <filter>
         <filter-name>FilterDispatcher</filter-name>
-        <filter-class>chinriku.spotifysuffledplaylist.filters.FilterDispatcher</filter-class>
+        <filter-class>chinriku.spotifyshuffledplaylist.filters.FilterDispatcher</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FilterDispatcher</filter-name>
@@ -10,15 +10,15 @@
     </filter-mapping>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>chinriku.spotifysuffledplaylist.servlets.LoginServlet</servlet-class>
+        <servlet-class>chinriku.spotifyshuffledplaylist.servlets.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GetPlaylistServlet</servlet-name>
-        <servlet-class>chinriku.spotifysuffledplaylist.servlets.GetPlaylistServlet</servlet-class>
+        <servlet-class>chinriku.spotifyshuffledplaylist.servlets.GetPlaylistServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CallbackServlet</servlet-name>
-        <servlet-class>chinriku.spotifysuffledplaylist.servlets.CallbackServlet</servlet-class>
+        <servlet-class>chinriku.spotifyshuffledplaylist.servlets.CallbackServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>

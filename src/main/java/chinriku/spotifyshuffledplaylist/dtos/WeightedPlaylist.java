@@ -1,4 +1,4 @@
-package chinriku.spotifysuffledplaylist.dtos;
+package chinriku.spotifyshuffledplaylist.dtos;
 
 import java.util.LinkedList;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;

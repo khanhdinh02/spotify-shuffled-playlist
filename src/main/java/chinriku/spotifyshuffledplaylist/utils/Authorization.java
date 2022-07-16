@@ -1,4 +1,4 @@
-package chinriku.spotifysuffledplaylist.utils;
+package chinriku.spotifyshuffledplaylist.utils;
 
 import java.io.IOException;
 import java.net.URI;

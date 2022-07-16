@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>chinriku</groupId>
-    <artifactId>spotify-suffled-playlist</artifactId>
+    <artifactId>spotify-shuffled-playlist</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>spotify-suffled-playlist</name>
+    <name>spotify-shuffled-playlist</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>

@@ -1,4 +1,4 @@
-package chinriku.spotifysuffledplaylist.filters;
+package chinriku.spotifyshuffledplaylist.filters;
 
 import java.io.IOException;
 import java.io.PrintStream;

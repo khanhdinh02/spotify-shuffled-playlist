@@ -1,7 +1,7 @@
-# spotify-suffled-playlist
-Create a playlist by suffling an original playlist.
+# spotify-shuffled-playlist
+Create a playlist by shuffling an original playlist.
 ## Development
-This project uses Maven and requires at lease JDK 1.8
+This project uses Maven and requires at least JDK 1.8
 ### Setup
 In folder `src\main\resources` (the same folder as `.env.example`), create a file named `.env` following this example:
 ```

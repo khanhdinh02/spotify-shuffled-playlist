@@ -1,4 +1,4 @@
-package chinriku.spotifysuffledplaylist.dtos;
+package chinriku.spotifyshuffledplaylist.dtos;
 
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 
