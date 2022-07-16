@@ -49,6 +49,9 @@ public class CallbackServlet extends HttpServlet {
             Cookie refreshTokenCookie = new Cookie("refreshToken", codeCredentials.getRefreshToken());
             refreshTokenCookie.setMaxAge(-1);
             response.addCookie(refreshTokenCookie);
+            response.sendRedirect("./");
+        } else {
+            response.sendRedirect("login.jsp");
         }
     }
 

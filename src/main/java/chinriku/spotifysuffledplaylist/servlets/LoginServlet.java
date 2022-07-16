@@ -29,7 +29,6 @@ public class LoginServlet extends HttpServlet {
         response.addCookie(stateCookie);
         
         URI uri = Authorization.getCodeURI(state);
-        System.out.println(uri);
         response.sendRedirect(uri.toString());
     }
 
