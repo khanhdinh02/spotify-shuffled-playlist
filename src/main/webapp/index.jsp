@@ -7,26 +7,36 @@
         <title>Spotity / Suffled Playlist</title>
     </head>
     <body>
-        <form action="getPlaylist" method='post'>
-            <input type="url" name="url" value="${sessionScope.url}" placeholder="Enter playlist's url">
-            <button type="submit">Submit</button>
-        </form>
-        <c:set var="status" value="${requestScope.status}" />
-        <c:if test="${status != null}">
-            <c:choose>
-                <c:when test="${status == 0}">
-                    <!-- Confirm -->
-                    <form action="createPlaylist">
-                        <button type="submit">Create Playlist</button>
-                    </form>
-                </c:when>
-                <c:when test="${status == 1}">
-                    <!-- Create playlist success -->
-                </c:when>
-                <c:when test="${status == -1}">
-                    <!-- Error -->
-                </c:when>
-            </c:choose>
-        </c:if>
+        <header>
+            <div>
+                <img src="${sessionScope.user.images[0].url}">
+                <span>${sessionScope.user.name}</span>
+            </div>
+            <p><a href="${sessionScope.user.url}" target="_blank">Profile</a></p>
+            <p><a href="logout">Logout</a></p>
+        </header>
+        <section>
+            <form action="getPlaylist" method='post'>
+                <input type="url" name="url" value="${sessionScope.url}" placeholder="Enter playlist's url">
+                <button type="submit">Submit</button>
+            </form>
+            <c:set var="status" value="${requestScope.status}" />
+            <c:if test="${status != null}">
+                <c:choose>
+                    <c:when test="${status == 0}">
+                        <!-- Confirm -->
+                        <form action="createPlaylist">
+                            <button type="submit">Create Playlist</button>
+                        </form>
+                    </c:when>
+                    <c:when test="${status == 1}">
+                        <!-- Create playlist success -->
+                    </c:when>
+                    <c:when test="${status == -1}">
+                        <!-- Error -->
+                    </c:when>
+                </c:choose>
+            </c:if>
+        </section>
     </body>
 </html>

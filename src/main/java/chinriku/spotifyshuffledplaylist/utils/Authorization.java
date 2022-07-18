@@ -14,12 +14,16 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 
 public class Authorization {
 
-    private static final URI redirectURI = SpotifyHttpManager.makeUri(Config.REDIRECT_URI);
-    private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
-            .setClientId(Config.CLIENT_ID)
-            .setClientSecret(Config.CLIENT_SECRET)
-            .setRedirectUri(redirectURI)
-            .build();
+    private static final SpotifyApi spotifyApi;
+
+    static {
+        URI redirectURI = SpotifyHttpManager.makeUri(Config.REDIRECT_URI);
+        spotifyApi = new SpotifyApi.Builder()
+                .setClientId(Config.CLIENT_ID)
+                .setClientSecret(Config.CLIENT_SECRET)
+                .setRedirectUri(redirectURI)
+                .build();
+    }
 
     public static URI getCodeURI(String state) {
         AuthorizationCodeUriRequest request = spotifyApi.authorizationCodeUri()
@@ -30,25 +34,17 @@ public class Authorization {
         return uri;
     }
 
-    public static AuthorizationCodeCredentials getAccessRefreshToken(String code) {
-        AuthorizationCodeCredentials credentials = null;
-        try {
-            AuthorizationCodeRequest request = spotifyApi.authorizationCode(code).build();
-            credentials = request.execute();
-        } catch (IOException | ParseException | SpotifyWebApiException e) {
-            e.printStackTrace();
-        }
+    public static AuthorizationCodeCredentials getAccessRefreshToken(String code)
+            throws IOException, SpotifyWebApiException, ParseException {
+        AuthorizationCodeRequest request = spotifyApi.authorizationCode(code).build();
+        AuthorizationCodeCredentials credentials = request.execute();
         return credentials;
     }
 
-    public static AuthorizationCodeCredentials refreshAccessToken() {
-        AuthorizationCodeCredentials credentials = null;
-        try {
-            AuthorizationCodeRefreshRequest request = spotifyApi.authorizationCodeRefresh().build();
-            credentials = request.execute();
-        } catch (IOException | ParseException | SpotifyWebApiException e) {
-            e.printStackTrace();
-        }
+    public static AuthorizationCodeCredentials refreshAccessToken()
+            throws IOException, SpotifyWebApiException, ParseException {
+        AuthorizationCodeRefreshRequest request = spotifyApi.authorizationCodeRefresh().build();
+        AuthorizationCodeCredentials credentials = request.execute();
         return credentials;
     }
 

@@ -6,6 +6,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <p>${requestScope.message}</p>
         <form action="login">
             <button type="submit">Login to Spotify</button>
         </form>

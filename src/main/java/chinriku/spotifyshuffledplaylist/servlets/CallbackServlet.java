@@ -1,5 +1,7 @@
 package chinriku.spotifyshuffledplaylist.servlets;
 
+import chinriku.spotifyshuffledplaylist.daos.UserInfoDAO;
+import chinriku.spotifyshuffledplaylist.dtos.UserInfo;
 import chinriku.spotifyshuffledplaylist.utils.Authorization;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,6 +9,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.hc.core5.http.ParseException;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 
 public class CallbackServlet extends HttpServlet {
@@ -40,18 +44,27 @@ public class CallbackServlet extends HttpServlet {
             return;
         }
 
-        AuthorizationCodeCredentials codeCredentials = Authorization.getAccessRefreshToken(code);
-        // Store access token and refresh token to cookie
-        if (codeCredentials != null) {
-            Cookie accessTokenCookie = new Cookie("accessToken", codeCredentials.getAccessToken());
+        try {
+            AuthorizationCodeCredentials codeCredentials = Authorization.getAccessRefreshToken(code);
+            // Store access token and refresh token to cookie
+            String accessToken = codeCredentials.getAccessToken();
+            Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
             accessTokenCookie.setMaxAge(-1);
             response.addCookie(accessTokenCookie);
             Cookie refreshTokenCookie = new Cookie("refreshToken", codeCredentials.getRefreshToken());
             refreshTokenCookie.setMaxAge(-1);
             response.addCookie(refreshTokenCookie);
+
+            // Save user to session
+            UserInfo user = UserInfoDAO.getCurrentUserInfo(accessToken);
+            request.getSession().setAttribute("user", user);
+
             response.sendRedirect("./");
-        } else {
-            response.sendRedirect("login.jsp");
+        } catch (IOException | ParseException | SpotifyWebApiException e) {
+            e.printStackTrace();
+            request.getSession().invalidate();
+            request.setAttribute("message", "Something went wrong. Please login again");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 
