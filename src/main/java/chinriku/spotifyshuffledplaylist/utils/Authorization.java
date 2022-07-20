@@ -14,18 +14,16 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 
 public class Authorization {
 
-    private static final SpotifyApi spotifyApi;
-
-    static {
-        URI redirectURI = SpotifyHttpManager.makeUri(Config.REDIRECT_URI);
-        spotifyApi = new SpotifyApi.Builder()
-                .setClientId(Config.CLIENT_ID)
-                .setClientSecret(Config.CLIENT_SECRET)
-                .setRedirectUri(redirectURI)
-                .build();
-    }
+    private static final String CLIENT_ID = Config.CLIENT_ID;
+    private static final String CLIENT_SECRET = Config.CLIENT_SECRET;
+    private static final URI REDIRECT_URI = SpotifyHttpManager.makeUri(Config.REDIRECT_URI);
 
     public static URI getCodeURI(String state) {
+        SpotifyApi spotifyApi = new SpotifyApi.Builder()
+                .setClientId(CLIENT_ID)
+                .setClientSecret(CLIENT_SECRET)
+                .setRedirectUri(REDIRECT_URI)
+                .build();
         AuthorizationCodeUriRequest request = spotifyApi.authorizationCodeUri()
                 .state(state)
                 .scope("playlist-modify-private")
@@ -36,13 +34,23 @@ public class Authorization {
 
     public static AuthorizationCodeCredentials getAccessRefreshToken(String code)
             throws IOException, SpotifyWebApiException, ParseException {
+        SpotifyApi spotifyApi = new SpotifyApi.Builder()
+                .setClientId(CLIENT_ID)
+                .setClientSecret(CLIENT_SECRET)
+                .setRedirectUri(REDIRECT_URI)
+                .build();
         AuthorizationCodeRequest request = spotifyApi.authorizationCode(code).build();
         AuthorizationCodeCredentials credentials = request.execute();
         return credentials;
     }
 
-    public static AuthorizationCodeCredentials refreshAccessToken()
+    public static AuthorizationCodeCredentials refreshAccessToken(String refreshToken)
             throws IOException, SpotifyWebApiException, ParseException {
+        SpotifyApi spotifyApi = new SpotifyApi.Builder()
+                .setClientId(CLIENT_ID)
+                .setClientSecret(CLIENT_SECRET)
+                .setRefreshToken(refreshToken)
+                .build();
         AuthorizationCodeRefreshRequest request = spotifyApi.authorizationCodeRefresh().build();
         AuthorizationCodeCredentials credentials = request.execute();
         return credentials;
