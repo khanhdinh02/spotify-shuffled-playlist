@@ -16,16 +16,16 @@
             <p><a href="logout">Logout</a></p>
         </header>
         <section>
-            <form action="getPlaylist" method='post'>
-                <input type="url" name="url" value="${sessionScope.url}" placeholder="Enter playlist's url">
+            <form action="getPlaylist" method="post">
+                <input type="url" name="url" value="${sessionScope.url}" placeholder="Enter playlist's url or id" required>
                 <button type="submit">Submit</button>
             </form>
             <c:set var="status" value="${requestScope.status}" />
-            <c:if test="${status != null}">
+            <c:if test="${not empty status}">
                 <c:choose>
                     <c:when test="${status == 0}">
                         <!-- Confirm -->
-                        <form action="createPlaylist">
+                        <form action="createPlaylist" method="post">
                             <button type="submit">Create Playlist</button>
                         </form>
                     </c:when>
@@ -34,6 +34,7 @@
                     </c:when>
                     <c:when test="${status == -1}">
                         <!-- Error -->
+                        ${requestScope.message}
                     </c:when>
                 </c:choose>
             </c:if>
