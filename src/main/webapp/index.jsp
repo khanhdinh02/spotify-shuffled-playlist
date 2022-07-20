@@ -17,7 +17,7 @@
         </header>
         <section>
             <form action="getPlaylist" method="post">
-                <input type="url" name="url" value="${sessionScope.url}" placeholder="Enter playlist's url or id" required>
+                <input type="url" name="url" value="${sessionScope.url}" placeholder="Enter playlist's url" required>
                 <button type="submit">Submit</button>
             </form>
             <c:set var="status" value="${requestScope.status}" />

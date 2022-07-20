@@ -4,6 +4,8 @@ import chinriku.spotifyshuffledplaylist.dtos.WeightedPlaylist;
 import chinriku.spotifyshuffledplaylist.utils.Authorization;
 import chinriku.spotifyshuffledplaylist.utils.CookieHelper;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -32,23 +34,31 @@ public class GetPlaylistServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = request.getParameter("url").trim();
-        String id = url.substring(url.lastIndexOf('/') + 1);
+        String urlString = request.getParameter("url");
         Cookie[] cookies = request.getCookies();
         String accessToken = CookieHelper.getCookiesValue(cookies, "accessToken");
 
         // Save url to session
         HttpSession session = request.getSession();
-        session.setAttribute("url", url);
+        session.setAttribute("url", urlString);
 
-        // get playlist
-        SpotifyApi spotifyApi = new SpotifyApi.Builder().setAccessToken(accessToken).build();
-        GetPlaylistRequest getPlaylistRequest = spotifyApi.getPlaylist(id).build();
         try {
+            // Parse playlist's id
+            URL url = new URL(urlString);
+            String path = url.getPath();
+            String id = path.substring(path.lastIndexOf('/') + 1);
+
+            // get playlist
+            SpotifyApi spotifyApi = new SpotifyApi.Builder().setAccessToken(accessToken).build();
+            GetPlaylistRequest getPlaylistRequest = spotifyApi.getPlaylist(id).build();
             Playlist playlist = getPlaylistRequest.execute();
             WeightedPlaylist weightedPlaylist = new WeightedPlaylist(playlist);
             request.setAttribute("playlist", weightedPlaylist);
             request.setAttribute("status", 0);
+            request.getRequestDispatcher("./").forward(request, response);
+        } catch (MalformedURLException e) {
+            request.setAttribute("status", -1);
+            request.setAttribute("message", "Invalid URL");
             request.getRequestDispatcher("./").forward(request, response);
         } catch (NotFoundException e) {
             // Playlist not found
@@ -62,7 +72,7 @@ public class GetPlaylistServlet extends HttpServlet {
                 try {
                     AuthorizationCodeCredentials credentials = Authorization.refreshAccessToken(CookieHelper.getCookiesValue(cookies, "refreshToken"));
                     accessToken = credentials.getAccessToken();
-                    
+
                     // Save new access token
                     Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
                     accessTokenCookie.setMaxAge(-1);
