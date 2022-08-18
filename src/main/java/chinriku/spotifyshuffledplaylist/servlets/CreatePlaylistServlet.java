@@ -1,11 +1,11 @@
 package chinriku.spotifyshuffledplaylist.servlets;
 
 import chinriku.spotifyshuffledplaylist.daos.PlaylistDAO;
+import chinriku.spotifyshuffledplaylist.dtos.UserInfo;
 import chinriku.spotifyshuffledplaylist.utils.Authorization;
 import chinriku.spotifyshuffledplaylist.utils.CookieHelper;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -15,13 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
-import se.michaelthelin.spotify.exceptions.detailed.NotFoundException;
 import se.michaelthelin.spotify.exceptions.detailed.UnauthorizedException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 
-public class GetPlaylistServlet extends HttpServlet {
+public class CreatePlaylistServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -34,39 +33,32 @@ public class GetPlaylistServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String urlString = request.getParameter("url");
         Cookie[] cookies = request.getCookies();
+        HttpSession session = request.getSession();
+        List<PlaylistTrack> trackList = (List<PlaylistTrack>) session.getAttribute("trackList");
+        UserInfo user = (UserInfo) session.getAttribute("user");
         String accessToken = CookieHelper.getCookiesValue(cookies, "accessToken");
 
-        // Save url to session
-        HttpSession session = request.getSession();
-        session.setAttribute("url", urlString);
-
         try {
-            // Parse playlist's id
-            URL url = new URL(urlString);
-            String path = url.getPath();
-            String id = path.substring(path.lastIndexOf('/') + 1);
+            if (trackList != null) {
+                Playlist newPlaylist = PlaylistDAO.createPlaylist(accessToken, user.getId());
 
-            // Get playlist
-            Playlist weightedPlaylist = PlaylistDAO.getPlaylist(accessToken, id);
+                // Add tracks
+                Collections.shuffle(trackList);
+                String[] trackUris = new String[trackList.size()];
+                for (int i = 0; i < trackList.size(); i++) {
+                    trackUris[i] = trackList.get(i).getTrack().getUri();
+                }
+                PlaylistDAO.addTracks(accessToken, newPlaylist.getId(), trackUris);
 
-            // Get tracks
-            List<PlaylistTrack> trackList = PlaylistDAO.getPlaylistTracks(accessToken, id);
-
-            session.setAttribute("playlist", weightedPlaylist);
-            session.setAttribute("trackList", trackList);
-            request.setAttribute("status", 0);
-            request.getRequestDispatcher("./").forward(request, response);
-        } catch (MalformedURLException e) {
-            request.setAttribute("status", -1);
-            request.setAttribute("message", "Invalid URL");
-            request.getRequestDispatcher("./").forward(request, response);
-        } catch (NotFoundException e) {
-            // Playlist not found
-            request.setAttribute("message", "Playlist not found");
-            request.setAttribute("status", -1);
-            request.getRequestDispatcher("./").forward(request, response);
+                request.setAttribute("status", 1);
+                request.setAttribute("newPlaylistsUrl", newPlaylist.getExternalUrls().get("spotify"));
+                request.getRequestDispatcher("./").forward(request, response);
+            } else {
+                request.setAttribute("status", -1);
+                request.setAttribute("message", "Please get playlist again");
+                request.getRequestDispatcher("./").forward(request, response);
+            }
         } catch (UnauthorizedException e) {
             // Refresh access token, then retry
             boolean hasRefreshed = Boolean.valueOf(String.valueOf(request.getAttribute("hasRefreshed")));

@@ -3,6 +3,7 @@ package chinriku.spotifyshuffledplaylist.servlets;
 import chinriku.spotifyshuffledplaylist.daos.UserInfoDAO;
 import chinriku.spotifyshuffledplaylist.dtos.UserInfo;
 import chinriku.spotifyshuffledplaylist.utils.Authorization;
+import chinriku.spotifyshuffledplaylist.utils.CookieHelper;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -31,12 +32,7 @@ public class CallbackServlet extends HttpServlet {
         Cookie[] cookies = request.getCookies();
 
         // Get state stored in cookie
-        String savedState = null;
-        for (Cookie c : cookies) {
-            if (c.getName().equals("state")) {
-                savedState = c.getValue();
-            }
-        }
+        String savedState = CookieHelper.getCookiesValue(cookies, "state");
 
         // Return login page if auth code or state is invalid
         if (code == null || code.isEmpty() || reqState == null || !reqState.equals(savedState)) {
