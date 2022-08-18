@@ -1,9 +1,10 @@
 package chinriku.spotifyshuffledplaylist.dtos;
 
+import java.io.Serializable;
 import se.michaelthelin.spotify.model_objects.specification.Image;
 import se.michaelthelin.spotify.model_objects.specification.User;
 
-public class UserInfo {
+public class UserInfo implements Serializable {
 
     private String id;
     private String name;
