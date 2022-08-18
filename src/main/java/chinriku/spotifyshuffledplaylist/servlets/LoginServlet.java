@@ -27,18 +27,8 @@ public class LoginServlet extends HttpServlet {
         Cookie stateCookie = new Cookie("state", state);
         stateCookie.setMaxAge(-1);
         response.addCookie(stateCookie);
-        
+
         URI uri = Authorization.getCodeURI(state);
         response.sendRedirect(uri.toString());
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
     }
 }
