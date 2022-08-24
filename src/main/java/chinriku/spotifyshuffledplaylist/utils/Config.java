@@ -11,7 +11,10 @@ public class Config {
     static {
         Dotenv env = null;
         try {
-            env = Dotenv.load();
+            env = Dotenv.configure()
+                    .ignoreIfMissing()
+                    .ignoreIfMalformed()
+                    .load();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
