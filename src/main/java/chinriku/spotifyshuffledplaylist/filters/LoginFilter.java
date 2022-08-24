@@ -1,5 +1,6 @@
 package chinriku.spotifyshuffledplaylist.filters;
 
+import chinriku.spotifyshuffledplaylist.dtos.UserInfo;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -11,8 +12,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-public class FilterDispatcher implements Filter {
+public class LoginFilter implements Filter {
 
     private static final boolean debug = true;
 
@@ -21,60 +23,7 @@ public class FilterDispatcher implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
 
-    public FilterDispatcher() {
-    }
-
-    private void doBeforeProcessing(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
-        if (debug) {
-            log("FilterDispatcher:DoBeforeProcessing");
-        }
-
-        // Write code here to process the request and/or response before
-        // the rest of the filter chain is invoked.
-        // For example, a logging filter might log items on the request object,
-        // such as the parameters.
-        /*
-	for (Enumeration en = request.getParameterNames(); en.hasMoreElements(); ) {
-	    String name = (String)en.nextElement();
-	    String values[] = request.getParameterValues(name);
-	    int n = values.length;
-	    StringBuffer buf = new StringBuffer();
-	    buf.append(name);
-	    buf.append("=");
-	    for(int i=0; i < n; i++) {
-	        buf.append(values[i]);
-	        if (i < n-1)
-	            buf.append(",");
-	    }
-	    log(buf.toString());
-	}
-         */
-    }
-
-    private void doAfterProcessing(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
-        if (debug) {
-            log("FilterDispatcher:DoAfterProcessing");
-        }
-
-        // Write code here to process the request and/or response after
-        // the rest of the filter chain is invoked.
-        // For example, a logging filter might log the attributes on the
-        // request object after the request has been processed. 
-        /*
-	for (Enumeration en = request.getAttributeNames(); en.hasMoreElements(); ) {
-	    String name = (String)en.nextElement();
-	    Object value = request.getAttribute(name);
-	    log("attribute: " + name + "=" + value.toString());
-
-	}
-         */
-        // For example, a filter might append something to the response.
-        /*
-	PrintWriter respOut = new PrintWriter(response.getWriter());
-	respOut.println("<P><B>This has been appended by an intrusive filter.</B>");
-         */
+    public LoginFilter() {
     }
 
     /**
@@ -86,26 +35,24 @@ public class FilterDispatcher implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
 
         if (debug) {
-            log("FilterDispatcher:doFilter()");
+            log("LoginFilter:doFilter()");
         }
-
-        doBeforeProcessing(request, response);
 
         Throwable problem = null;
         try {
             HttpServletRequest req = (HttpServletRequest) request;
-            String resource = req.getServletPath();
-            String query = req.getQueryString();
+            HttpServletResponse res = (HttpServletResponse) response;
+            UserInfo user = (UserInfo) req.getSession().getAttribute("user");
 
-            if (!resource.contains(".")) {
-                resource = "/" + Character.toUpperCase(resource.charAt(1)) + resource.substring(2) + "Servlet"
-                        + ((query != null) ? "?" + query : "");
-                request.getRequestDispatcher(resource).forward(request, response);
+            // If user does not log in or session timed out
+            if (user == null && !isLoginPage(req.getServletPath())) {
+                res.sendRedirect("login.jsp");
             } else {
                 chain.doFilter(request, response);
             }
@@ -116,8 +63,6 @@ public class FilterDispatcher implements Filter {
             problem = t;
             t.printStackTrace();
         }
-
-        doAfterProcessing(request, response);
 
         // If there was a problem, we want to rethrow it if it is
         // a known type, otherwise log it.
@@ -133,35 +78,21 @@ public class FilterDispatcher implements Filter {
     }
 
     /**
-     * Return the filter configuration object for this filter.
-     */
-    public FilterConfig getFilterConfig() {
-        return (this.filterConfig);
-    }
-
-    /**
-     * Set the filter configuration object for this filter.
-     *
-     * @param filterConfig The filter configuration object
-     */
-    public void setFilterConfig(FilterConfig filterConfig) {
-        this.filterConfig = filterConfig;
-    }
-
-    /**
      * Destroy method for this filter
      */
+    @Override
     public void destroy() {
     }
 
     /**
      * Init method for this filter
      */
+    @Override
     public void init(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {
-                log("FilterDispatcher:Initializing filter");
+                log("LoginFilter:Initializing filter");
             }
         }
     }
@@ -172,9 +103,9 @@ public class FilterDispatcher implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("FilterDispatcher()");
+            return ("LoginFilter()");
         }
-        StringBuffer sb = new StringBuffer("FilterDispatcher(");
+        StringBuffer sb = new StringBuffer("LoginFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
@@ -228,4 +159,13 @@ public class FilterDispatcher implements Filter {
         filterConfig.getServletContext().log(msg);
     }
 
+    private boolean isLoginPage(String servletPath) {
+        String[] loginPages = {"login.jsp", "login", "callback", "logout"};
+        for (String page : loginPages) {
+            if (servletPath.startsWith("/" + page)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
