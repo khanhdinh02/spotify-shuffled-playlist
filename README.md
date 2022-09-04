@@ -7,7 +7,7 @@ In folder `src\main\resources` (the same folder as `.env.example`), create a fil
 ```
 CLIENT_ID=YOUR_CLIENT_ID
 CLIENT_SECRET=YOUR_CLIENT_SECRET
-REDIRECT_URI=
+REDIRECT_URI=https://your-site/callback
 ```
 You get your Client ID and Client Secret from your [Spotify Application](https://developer.spotify.com/dashboard/applications).
 Redirect URI in your Spotify Application and in your .env file must be the same.
