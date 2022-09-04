@@ -21,7 +21,10 @@ public class PlaylistDAO {
     public static Playlist getPlaylist(String accessToken, String id)
             throws IOException, SpotifyWebApiException, ParseException {
         SpotifyApi spotifyApi = new SpotifyApi.Builder().setAccessToken(accessToken).build();
-        GetPlaylistRequest getPlaylistRequest = spotifyApi.getPlaylist(id).build();
+        GetPlaylistRequest getPlaylistRequest = spotifyApi.getPlaylist(id)
+                .fields("collaborative,description,external_urls,followers,href"
+                        + ",id,images,name,owner,public,snapshot_id,type,uri")
+                .build();
         return getPlaylistRequest.execute();
     }
 

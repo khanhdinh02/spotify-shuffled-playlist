@@ -52,7 +52,7 @@ public class CreatePlaylistServlet extends HttpServlet {
                 PlaylistDAO.addTracks(accessToken, newPlaylist.getId(), trackUris);
 
                 request.setAttribute("status", 1);
-                request.setAttribute("newPlaylistsUrl", newPlaylist.getExternalUrls().get("spotify"));
+                request.setAttribute("newPlaylists", newPlaylist);
                 request.getRequestDispatcher("./").forward(request, response);
             } else {
                 request.setAttribute("status", -1);
