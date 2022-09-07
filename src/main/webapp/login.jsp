@@ -10,6 +10,5 @@
         <form action="login">
             <button type="submit">Login to Spotify</button>
         </form>
-        <p>Testing commit Desktop GitHub (Delete Later)</p>
     </body>
 </html>
