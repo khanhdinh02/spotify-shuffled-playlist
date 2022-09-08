@@ -51,7 +51,7 @@ public class LoginFilter implements Filter {
             UserInfo user = (UserInfo) req.getSession().getAttribute("user");
 
             // If user does not log in or session timed out
-            if (user == null && !isLoginPage(req.getServletPath())) {
+            if (user == null && !isLoginPage(req.getServletPath()) && !isResource(req.getServletPath())) {
                 res.sendRedirect("login.jsp");
             } else {
                 chain.doFilter(request, response);
@@ -163,6 +163,16 @@ public class LoginFilter implements Filter {
         String[] loginPages = {"login.jsp", "login", "callback", "logout"};
         for (String page : loginPages) {
             if (servletPath.startsWith("/" + page)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isResource(String servletPath) {
+        String[] resourceFolders = {"/css/", "/js/", "/images/"};
+        for (String f : resourceFolders) {
+            if (servletPath.startsWith(f)) {
                 return true;
             }
         }
