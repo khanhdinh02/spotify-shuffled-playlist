@@ -1,0 +1,11 @@
+.justify-text {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+#footer {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
