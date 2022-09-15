@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home Page</title>
+        <title>Spotify Playlist</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="stylesheet" href="css/general.css" type="text/css">
@@ -31,13 +31,22 @@
             <!-- Description Stuff -->
             <div class="row">
                 <div class="col-sm-8 text-center">
-                    <p class="spotify-font justify-text">Insert description stuff here</p>
+                    <p class="spotify-font justify-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                        Donec nunc enim, tristique sit amet volutpat non, sollicitudin eu elit. 
+                        Nullam sollicitudin venenatis ipsum non sagittis. Proin at tincidunt massa. 
+                        Aenean dignissim, lectus sit amet sodales cursus, eros sem mollis velit, quis porttitor ipsum elit at risus. 
+                        Pellentesque ac euismod justo. In leo nibh, auctor id cursus eu, finibus rutrum quam. 
+                        Vestibulum quis quam sit amet ligula molestie pellentesque. Nullam blandit ipsum at interdum porttitor. 
+                        Proin scelerisque nisl eget ex laoreet bibendum. 
+                        Donec condimentum tristique arcu id dictum. Nam sed tempus nunc.
+                    </p>
                     <form action="login">
                         <button type="submit" class="green-button spotify-font">Login to Spotify</button>
                     </form>
                 </div>
                 <div class="col-sm-4">
-                    <p>Image WIP</p>
+                    <img src="images/login_img.svg" alt="Main Image">
                 </div>
             </div>
         </div>

@@ -5,15 +5,26 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Spotity / Suffled Playlist</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/general.css" type="text/css">
+        <link rel="stylesheet" href="css/index.css" type="text/css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     </head>
     <body>
         <header>
-            <div>
-                <img src="${sessionScope.user.images[0].url}">
-                <span>${sessionScope.user.name}</span>
-            </div>
-            <p><a href="${sessionScope.user.url}" target="_blank">Profile</a></p>
-            <p><a href="logout">Logout</a></p>
+
+            <nav class="navbar navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="index.html"><img src="images/logo.svg" alt="Spotify Playlist Logo" style="width:200px;"></a>
+                    <div class="d-flex">
+                        <img src="${sessionScope.user.images[0].url}" style="width:40px;">
+                        <span class="spotify-font" style="color: white">${sessionScope.user.name}</span>
+                        <p><a href="${sessionScope.user.url}" target="_blank">Profile</a></p>
+                        <p><a href="logout">Logout</a></p>
+                    </div>
+                </div>
+            </nav>
         </header>
         <section>
             <form action="getPlaylist" method="post">
@@ -39,5 +50,6 @@
                 </c:choose>
             </c:if>
         </section>
+        <footer id="footer" class="spotify-font">Copyright &copy; 2022</footer>
     </body>
 </html>
