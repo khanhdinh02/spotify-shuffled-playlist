@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="css/general.css" type="text/css">
         <link rel="stylesheet" href="css/login.css" type="text/css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+        <link rel="icon" href="/images/favicon.svg">
     </head>
     <body>
         <!-- Nav bar -->
@@ -19,15 +20,15 @@
             </div>
         </nav>
         <!-- Main body -->
-        <div class="container">
-            <!-- Error Message -->
-            <c:if test="${not empty requestScope}">
-                <div class="row">
-                    <div class="col-sm-12 text-center">
-                        <p class="message">${requestScope.message}</p>
-                    </div>
+        <!-- Error Message -->
+        <c:if test="${not empty requestScope}">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="message">${requestScope.message}</p>
                 </div>
-            </c:if>
+            </div>
+        </c:if>
+        <div class="container">
             <!-- Description Stuff -->
             <div class="row">
                 <div class="col-sm-8 text-center">

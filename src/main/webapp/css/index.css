@@ -1,3 +1,23 @@
+.btn {
+    border-radius: 20px;
+}
+
+.profile_img {
+    width: 30px;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+.profile_name {
+    vertical-align: middle;
+    font-size: 15px;
+    color: white;
+}
+
+.dropdown-toggle::after {
+    vertical-align: middle;
+}
+
 #footer {
     background-color: black;
     color: white;
