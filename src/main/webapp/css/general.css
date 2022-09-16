@@ -11,6 +11,10 @@
     padding: 10px;
 }
 
+.logo {
+    width: 200px;
+}
+
 .justify-text {
     text-align: justify;
     text-justify: inter-word;

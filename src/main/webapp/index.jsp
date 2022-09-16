@@ -13,26 +13,28 @@
     </head>
     <body>
         <header>
-            <nav class="navbar navbar-dark bg-dark">
+            <nav class="navbar">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="index.html"><img src="images/logo.svg" alt="Spotify Playlist Logo" style="width:200px;"></a>
+                    <a class="navbar-brand logo" href="index.html"><img src="images/logo.svg" alt="Spotify Playlist Logo"></a>
                     <div class="dropdown">
-                        <a class="btn btn-dark btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                             <img class="profile_img" src="${sessionScope.user.images[0].url}">
                             <span class="spotify-font profile_name">${sessionScope.user.name}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuLink">
                             <li><a class="dropdown-item" href="${sessionScope.user.url}" target="_blank">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>
             </nav>                            
         </header>
-        <section>
-            <form action="getPlaylist" method="post">
-                <input type="url" name="url" value="${sessionScope.url}" placeholder="Enter playlist's url" required>
-                <button type="submit">Submit</button>
+
+        <section class="playlist-create">
+            <form class="playlist-search" action="getPlaylist" method="post">
+                <input class="playlist-search-box" type="url" name="url" value="${sessionScope.url}" placeholder="Enter playlist's url" size="70" required>
+                <button class="green-button spotify-font" type="submit">Submit</button>
             </form>
             <c:set var="status" value="${requestScope.status}" />
             <c:if test="${not empty status}">
@@ -40,15 +42,15 @@
                     <c:when test="${status == 0}">
                         <!-- Confirm -->
                         <form action="createPlaylist" method="post">
-                            <button type="submit">Create Playlist</button>
+                            <button class="green-button spotify-font" type="submit">Create Playlist</button>
                         </form>
                     </c:when>
                     <c:when test="${status == 1}">
-                        <!-- Create playlist success -->
+                        <!-- Create playlist success, show the playlist below -->
                     </c:when>
                     <c:when test="${status == -1}">
                         <!-- Error -->
-                        ${requestScope.message}
+                        <p class="message">${requestScope.message}</p>
                     </c:when>
                 </c:choose>
             </c:if>

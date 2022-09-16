@@ -16,17 +16,13 @@
         <!-- Nav bar -->
         <nav class="navbar navbar-dark bg-dark">
             <div class=" container-fluid col-2">
-                <a class="navbar-brand" href="login.html"><img src="images/logo.svg" alt="Spotify Playlist Logo" style="width:200px;"></a>
+                <a class="navbar-brand logo" href="login.html"><img src="images/logo.svg" alt="Spotify Playlist Logo"></a>
             </div>
         </nav>
         <!-- Main body -->
         <!-- Error Message -->
         <c:if test="${not empty requestScope}">
-            <div class="row">
-                <div class="col-sm-12 text-center">
-                    <p class="message">${requestScope.message}</p>
-                </div>
-            </div>
+            <p class="message">${requestScope.message}</p>
         </c:if>
         <div class="container">
             <!-- Description Stuff -->
