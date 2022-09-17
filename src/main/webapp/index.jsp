@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri= "http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,7 +14,7 @@
     </head>
     <body>
         <header>
-            <nav class="navbar">
+            <nav class="navbar fixed-top">
                 <div class="container-fluid">
                     <a class="navbar-brand logo" href="index.html"><img src="images/logo.svg" alt="Spotify Playlist Logo"></a>
                     <div class="dropdown">
@@ -31,7 +32,7 @@
             </nav>                            
         </header>
 
-        <section class="playlist-create">
+        <section class="playlist">
             <form class="playlist-search" action="getPlaylist" method="post">
                 <input class="playlist-search-box" type="url" name="url" value="${sessionScope.url}" placeholder="Enter playlist's url" size="70" required>
                 <button class="green-button spotify-font" type="submit">Submit</button>
@@ -41,12 +42,51 @@
                 <c:choose>
                     <c:when test="${status == 0}">
                         <!-- Confirm -->
-                        <form action="createPlaylist" method="post">
+                        <form class="playlist-create" action="createPlaylist" method="post">
                             <button class="green-button spotify-font" type="submit">Create Playlist</button>
                         </form>
+                        <c:if test="${empty sessionScope.trackList}">
+                            <p style="color: white;">This playlist does not have any track</p>
+                        </c:if>
+                        <c:if test="${not empty sessionScope.trackList}">
+                            <table style="color: white;">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>TITLE</th>
+                                        <th>ALBUM</th>
+                                        <th>ARTISTS</th>
+                                        <th>LENGTH</th>
+                                    </tr>
+                                </thead>
+                                <c:forEach var="track" items="${sessionScope.trackList}" varStatus="counter">
+                                    <c:set var="duration" value="${track.track.durationMs}"/>
+                                    <c:set var="totalsec" value="${(duration - duration mod 1000)/1000}"/>
+                                    <fmt:parseNumber var = "min" integerOnly = "true" type = "number" value = "${(totalsec - totalsec mod 60)/60}" />
+                                    <fmt:parseNumber var = "sec" integerOnly = "true" type = "number" value = "${totalsec mod 60}" />
+                                    <tbody>
+                                        <tr>
+                                            <td>${counter.count}</td>
+                                            <td>${track.track.name}</td>
+                                            <td>${track.track.album.name}</td>
+                                            <td>
+                                                <c:forEach var="artist" items="${track.track.artists}">
+                                                    ${artist.name}, 
+                                                </c:forEach>                                                
+                                            </td>
+                                            <td>
+                                                <c:if test="${sec < 10}">${min}:0${sec}</c:if>
+                                                <c:if test="${sec > 10}">${min}:${sec}</c:if>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </c:forEach>
+                            </table>
+                        </c:if>
                     </c:when>
                     <c:when test="${status == 1}">
-                        <!-- Create playlist success, show the playlist below -->
+                        <!-- Create playlist success -->
+                        <p style="color: white;">Playlist Created: ${requestScope.newPlaylists.name}</p>
                     </c:when>
                     <c:when test="${status == -1}">
                         <!-- Error -->
@@ -55,7 +95,8 @@
                 </c:choose>
             </c:if>
         </section>
-        <footer id="footer" class="spotify-font">Copyright &copy; 2022</footer>
+
+        <footer id="footer" class="spotify-font">This project is an external app, not from Spotify</footer>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </html>

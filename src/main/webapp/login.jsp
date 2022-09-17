@@ -13,41 +13,40 @@
         <link rel="icon" href="/images/favicon.svg">
     </head>
     <body>
-        <!-- Nav bar -->
-        <nav class="navbar navbar-dark bg-dark">
-            <div class=" container-fluid col-2">
-                <a class="navbar-brand logo" href="login.html"><img src="images/logo.svg" alt="Spotify Playlist Logo"></a>
-            </div>
-        </nav>
-        <!-- Main body -->
-        <!-- Error Message -->
-        <c:if test="${not empty requestScope}">
-            <p class="message">${requestScope.message}</p>
-        </c:if>
-        <div class="container">
-            <!-- Description Stuff -->
-            <div class="row">
-                <div class="col-sm-8 text-center">
-                    <p class="spotify-font justify-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Donec nunc enim, tristique sit amet volutpat non, sollicitudin eu elit. 
-                        Nullam sollicitudin venenatis ipsum non sagittis. Proin at tincidunt massa. 
-                        Aenean dignissim, lectus sit amet sodales cursus, eros sem mollis velit, quis porttitor ipsum elit at risus. 
-                        Pellentesque ac euismod justo. In leo nibh, auctor id cursus eu, finibus rutrum quam. 
-                        Vestibulum quis quam sit amet ligula molestie pellentesque. Nullam blandit ipsum at interdum porttitor. 
-                        Proin scelerisque nisl eget ex laoreet bibendum. 
-                        Donec condimentum tristique arcu id dictum. Nam sed tempus nunc.
-                    </p>
-                    <form action="login">
-                        <button type="submit" class="green-button spotify-font">Login to Spotify</button>
-                    </form>
+        <header>
+            <nav class="navbar navbar-dark bg-dark fixed-top">
+                <div class=" container-fluid col-2">
+                    <a class="navbar-brand logo" href="login.html"><img src="images/logo.svg" alt="Spotify Playlist Logo"></a>
                 </div>
-                <div class="col-sm-4">
-                    <img src="images/login_img.svg" alt="Main Image">
+            </nav>
+        </header>
+        <section>
+            <div class="container">
+                <c:if test="${not empty requestScope}">
+                    <p class="message">${requestScope.message}</p>
+                </c:if>
+                <div class="row">
+                    <div class="col-sm-8 text-center">
+                        <p class="spotify-font justify-text">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                            Donec nunc enim, tristique sit amet volutpat non, sollicitudin eu elit. 
+                            Nullam sollicitudin venenatis ipsum non sagittis. Proin at tincidunt massa. 
+                            Aenean dignissim, lectus sit amet sodales cursus, eros sem mollis velit, quis porttitor ipsum elit at risus. 
+                            Pellentesque ac euismod justo. In leo nibh, auctor id cursus eu, finibus rutrum quam. 
+                            Vestibulum quis quam sit amet ligula molestie pellentesque. Nullam blandit ipsum at interdum porttitor. 
+                            Proin scelerisque nisl eget ex laoreet bibendum. 
+                            Donec condimentum tristique arcu id dictum. Nam sed tempus nunc.
+                        </p>
+                        <form action="login">
+                            <button type="submit" class="green-button spotify-font">Login to Spotify</button>
+                        </form>
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="images/login_img.svg" alt="Main Image">
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Footer -->
-        <footer id="footer" class="spotify-font">Copyright &copy; 2022</footer>
+        </section>
+        <footer id="footer" class="spotify-font">This project is an external app, not from Spotify</footer>
     </body>
 </html>

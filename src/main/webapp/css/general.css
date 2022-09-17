@@ -9,6 +9,7 @@
     border: none;
     border-radius: 25px;
     padding: 10px;
+    margin: 10px;
 }
 
 .logo {
@@ -35,4 +36,8 @@
     position: fixed;
     bottom: 0;
     width: 100%;
+    background-color: black;
+    color: white;
+    padding: 20px;
+    text-align: center;
 }

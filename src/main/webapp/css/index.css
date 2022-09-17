@@ -33,31 +33,28 @@ nav {
     vertical-align: middle;
 }
 
-.playlist-create {
+.playlist {
     display: block;
-    text-align: center; 
+    margin-top: 80px;
+    margin-bottom: 70px;
 }
 
-.playlist-search {
-    margin-top: 20px;
-    text-align: center;
+.playlist-search, .playlist-create {
+    text-align: center; 
 }
 
 .playlist-search-box {
     border-radius: 25px;
     font-size: 16px;
-    padding: 11px 20px 11px 40px;
+    background-image: url('/images/searchicon.png');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 11px 20px 11px 45px;
 }
 
 .green-button {
+    color: white;
     font-size: 20px;
     font-weight: 900;
     padding: 10px 30px;
-}
-
-#footer {
-    background-color: black;
-    color: white;
-    padding: 20px;
-    text-align: center;
 }
