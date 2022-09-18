@@ -37,17 +37,26 @@
                 <input class="playlist-search-box" type="url" name="url" value="${sessionScope.url}" placeholder="Enter playlist's url" size="70" required>
                 <button class="green-button spotify-font" type="submit">Submit</button>
             </form>
-            <p class="spotify-font playlist-info-title">PLAYLIST DETAILS</p>
             <c:set var="status" value="${requestScope.status}" />
             <c:if test="${not empty status}">
                 <c:choose>
                     <c:when test="${status == 0}">
-                        <!-- Confirm -->
-                        <form class="playlist-create" action="createPlaylist" method="post">
-                            <button class="green-button spotify-font" type="submit">Create Playlist</button>
-                        </form>
+                        <!-- Playlist Valid -->
+                        <!-- Playlist Information -->
+                        <div class="playlist-info">
+                            <p class="spotify-font playlist-info-title">PLAYLIST DETAILS</p>
+                            <p class="spotify-font playlist-info-title">${sessionScope.playlist.name}</p>
+                            <p class="spotify-font playlist-info-title">${sessionScope.playlist.owner.displayName} • ${sessionScope.trackList.size()} songs</p>
+                            <p class="spotify-font playlist-info-title">${sessionScope.playlist.description}</p>
+                            <img src="${sessionScope.playlist.images[0].url}" style="width: 200px;"/>
+                            <!-- Create Playlist on Logined Spotify account -->
+                            <form class="playlist-create" action="createPlaylist" method="post">
+                                <button class="green-button spotify-font" type="submit">Create Playlist</button>
+                            </form>
+                        </div>                            
+                        <!-- Show all tracks in this playlist -->
                         <c:if test="${empty sessionScope.trackList}">
-                            <p style="color: white;">This playlist does not have any track</p>
+                            <p class="spotify-font" style="color: white;">This playlist does not have any track</p>
                         </c:if>
                         <c:if test="${not empty sessionScope.trackList}">
                             <table class="table table-dark table-hover table-borderless spotify-font">
