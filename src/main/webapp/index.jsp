@@ -37,6 +37,7 @@
                 <input class="playlist-search-box" type="url" name="url" value="${sessionScope.url}" placeholder="Enter playlist's url" size="70" required>
                 <button class="green-button spotify-font" type="submit">Submit</button>
             </form>
+            <p class="spotify-font playlist-info-title">PLAYLIST DETAILS</p>
             <c:set var="status" value="${requestScope.status}" />
             <c:if test="${not empty status}">
                 <c:choose>
@@ -49,9 +50,9 @@
                             <p style="color: white;">This playlist does not have any track</p>
                         </c:if>
                         <c:if test="${not empty sessionScope.trackList}">
-                            <table style="color: white;">
+                            <table class="table table-dark table-hover table-borderless spotify-font">
                                 <thead>
-                                    <tr>
+                                    <tr class="head-tracklist">
                                         <th>#</th>
                                         <th>TITLE</th>
                                         <th>ALBUM</th>
@@ -66,20 +67,21 @@
                                     <fmt:parseNumber var = "sec" integerOnly = "true" type = "number" value = "${totalsec mod 60}" />
                                     <tbody>
                                         <tr>
-                                            <td>${counter.count}</td>
+                                            <th>${counter.count}</th>
                                             <td>${track.track.name}</td>
                                             <td>${track.track.album.name}</td>
                                             <td>
-                                                <c:forEach var="artist" items="${track.track.artists}">
-                                                    ${artist.name}, 
+                                                <c:forEach var="artist" items="${track.track.artists}" varStatus="artistcounter">
+                                                    <c:if test="${artistcounter.count == 1}">${artist.name}</c:if>
+                                                    <c:if test="${artistcounter.count != 1}">, ${artist.name}</c:if>
                                                 </c:forEach>                                                
                                             </td>
                                             <td>
                                                 <c:if test="${sec < 10}">${min}:0${sec}</c:if>
-                                                <c:if test="${sec > 10}">${min}:${sec}</c:if>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                                <c:if test="${sec >= 10}">${min}:${sec}</c:if>
+                                                </td>
+                                            </tr>
+                                        </tbody>
                                 </c:forEach>
                             </table>
                         </c:if>
