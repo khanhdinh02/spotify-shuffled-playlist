@@ -29,6 +29,10 @@ nav {
     font-size: 15px;
 }
 
+.dropdown-menu[data-bs-popper] {
+    margin-top: 1rem;
+}
+
 .dropdown-toggle::after {
     vertical-align: middle;
 }
@@ -53,7 +57,8 @@ nav {
 }
 
 .playlist-info-title {
-    color: #a7aaa7;
+    color: white;
+    font-size: 70px;
 }
 
 .green-button {
@@ -75,4 +80,14 @@ nav {
 .head-tracklist {
     color: #e4e4e4;
     border-bottom: 1px solid #303030;
+}
+
+.created-playlist-name {
+    color: #a7aaa7;
+    text-decoration: none;
+}
+
+.created-playlist-name:hover{
+    color: white;
+    text-decoration: underline;
 }

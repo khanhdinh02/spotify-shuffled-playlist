@@ -43,20 +43,28 @@
                     <c:when test="${status == 0}">
                         <!-- Playlist Valid -->
                         <!-- Playlist Information -->
-                        <div class="playlist-info">
-                            <p class="spotify-font playlist-info-title">PLAYLIST DETAILS</p>
-                            <p class="spotify-font playlist-info-title">${sessionScope.playlist.name}</p>
-                            <p class="spotify-font playlist-info-title">${sessionScope.playlist.owner.displayName} • ${sessionScope.trackList.size()} songs</p>
-                            <p class="spotify-font playlist-info-title">${sessionScope.playlist.description}</p>
-                            <img src="${sessionScope.playlist.images[0].url}" style="width: 200px;"/>
-                            <!-- Create Playlist on Logined Spotify account -->
-                            <form class="playlist-create" action="createPlaylist" method="post">
-                                <button class="green-button spotify-font" type="submit">Create Playlist</button>
-                            </form>
+                        <div class="container playlist-info">
+                            <div class="row">
+                                <p class="spotify-font" style="color: #a7aaa7;">PLAYLIST DETAILS</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <img src="${sessionScope.playlist.images[0].url}" style="width: 70%;"/>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="spotify-font playlist-info-title">${sessionScope.playlist.name}</p>
+                                    <p class="spotify-font" style="color: #a7aaa7;">${sessionScope.playlist.owner.displayName} • ${sessionScope.trackList.size()} songs</p>
+                                    <p class="spotify-font" style="color: #a7aaa7;">${sessionScope.playlist.description}</p>
+                                    <!-- Create Playlist on Logined Spotify account -->
+                                    <form class="playlist-create" action="createPlaylist" method="post">
+                                        <button class="green-button spotify-font" type="submit">Create Playlist</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>                            
                         <!-- Show all tracks in this playlist -->
                         <c:if test="${empty sessionScope.trackList}">
-                            <p class="spotify-font" style="color: white;">This playlist does not have any track</p>
+                            <p class="spotify-font" style="color: white; text-align: center;">This playlist does not have any track</p>
                         </c:if>
                         <c:if test="${not empty sessionScope.trackList}">
                             <table class="table table-dark table-hover table-borderless spotify-font">
@@ -97,11 +105,12 @@
                     </c:when>
                     <c:when test="${status == 1}">
                         <!-- Create playlist success -->
-                        <p style="color: white;">Playlist Created: ${requestScope.newPlaylists.name}</p>
-                    </c:when>
-                    <c:when test="${status == -1}">
+                        <p class="spotify-font" style="color: white; text-align: center;">Playlist Created: 
+                            <a class="spotify-font created-playlist-name" target="_blank" href="https://open.spotify.com/playlist/${requestScope.newPlaylists.id}">${requestScope.newPlaylists.name}</a></p>
+                        </c:when>
+                        <c:when test="${status == -1}">
                         <!-- Error -->
-                        <p class="message">${requestScope.message}</p>
+                        <p class="message" style="text-align: center;">${requestScope.message}</p>
                     </c:when>
                 </c:choose>
             </c:if>
