@@ -1,3 +1,4 @@
+/* general style */
 .spotify-font {
     font-family: 'Montserrat', serif;
     font-weight: bold;
@@ -39,4 +40,18 @@
     color: white;
     padding: 20px;
     text-align: center;
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #cecece;
+  border-radius: 25px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8; 
 }
