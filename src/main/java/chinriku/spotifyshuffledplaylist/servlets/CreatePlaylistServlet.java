@@ -5,6 +5,7 @@ import chinriku.spotifyshuffledplaylist.dtos.UserInfo;
 import chinriku.spotifyshuffledplaylist.utils.Authorization;
 import chinriku.spotifyshuffledplaylist.utils.CookieHelper;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.exceptions.detailed.UnauthorizedException;
+import se.michaelthelin.spotify.model_objects.IPlaylistItem;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
@@ -41,16 +43,26 @@ public class CreatePlaylistServlet extends HttpServlet {
 
         try {
             if (trackList != null) {
+                // Create new playlist
                 Playlist newPlaylist = PlaylistDAO.createPlaylist(accessToken, user.getId());
 
-                // Add tracks
+                // Shuffle and get uri list
                 Collections.shuffle(trackList);
-                String[] trackUris = new String[trackList.size()];
-                for (int i = 0; i < trackList.size(); i++) {
-                    trackUris[i] = trackList.get(i).getTrack().getUri();
-                }
-                PlaylistDAO.addTracks(accessToken, newPlaylist.getId(), trackUris);
+                ArrayList<String> trackUris = new ArrayList<>(trackList.size());
+                trackList.forEach(track -> {
+                    IPlaylistItem item = track.getTrack();
+                    if (item != null) {
+                        trackUris.add(item.getUri());
+                    }
+                });
 
+                // Add items
+                PlaylistDAO.addTracks(accessToken, newPlaylist.getId(), trackUris.toArray(new String[0]));
+
+                int failedItems = trackList.size() - trackUris.size();
+                if (failedItems > 0) {
+                    request.setAttribute("message", "Fail to retrieve " + failedItems + " track(s)/episode(s)");
+                }
                 request.setAttribute("status", 1);
                 request.setAttribute("newPlaylists", newPlaylist);
                 request.getRequestDispatcher("./").forward(request, response);
