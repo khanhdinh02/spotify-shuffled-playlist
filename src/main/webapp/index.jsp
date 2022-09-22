@@ -72,8 +72,8 @@
                                     <tr class="head-tracklist">
                                         <th>#</th>
                                         <th>TITLE</th>
-                                        <th>ALBUM</th>
-                                        <th>ARTISTS</th>
+                                        <th>ALBUM OR PODCAST</th>
+                                        <th>ARTISTS OR PUBLISHER</th>
                                         <th>LENGTH</th>
                                     </tr>
                                 </thead>
@@ -86,12 +86,19 @@
                                         <tr>
                                             <th>${counter.count}</th>
                                             <td>${track.track.name}</td>
-                                            <td>${track.track.album.name}</td>
+                                            <td>${"TRACK".equalsIgnoreCase(track.track.type) ? track.track.album.name : track.track.show.name}</td>
                                             <td>
+                                                <c:choose>
+                                                <c:when test='${"TRACK".equalsIgnoreCase(track.track.type)}'>
                                                 <c:forEach var="artist" items="${track.track.artists}" varStatus="artistcounter">
                                                     <c:if test="${artistcounter.count == 1}">${artist.name}</c:if>
                                                     <c:if test="${artistcounter.count != 1}">, ${artist.name}</c:if>
-                                                </c:forEach>                                                
+                                                </c:forEach>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${track.track.show.publisher}
+                                                </c:otherwise>
+                                                </c:choose>
                                             </td>
                                             <td>
                                                 <c:if test="${sec < 10}">${min}:0${sec}</c:if>

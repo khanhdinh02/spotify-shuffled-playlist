@@ -47,6 +47,7 @@ public class PlaylistDAO {
         Paging<PlaylistTrack> paging;
         do {
             GetPlaylistsItemsRequest request = spotifyApi.getPlaylistsItems(id)
+                    .additionalTypes("track,episode")
                     .limit(limit)
                     .offset(limit * count++)
                     .build();
