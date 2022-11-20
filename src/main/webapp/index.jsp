@@ -55,9 +55,32 @@
                                     <p class="spotify-font playlist-info-title">${sessionScope.playlist.name}</p>
                                     <p class="spotify-font" style="color: #a7aaa7;">${sessionScope.playlist.owner.displayName} • ${sessionScope.trackList.size()} songs</p>
                                     <p class="spotify-font" style="color: #a7aaa7;">${sessionScope.playlist.description}</p>
-                                    <!-- Create Playlist on Logined Spotify account -->
+                                    <!-- Create Playlist on Logged in Spotify account -->
                                     <form class="playlist-create" action="createPlaylist" method="post">
-                                        <button class="green-button spotify-font" type="submit">Create Playlist</button>
+                                        <button class="green-button spotify-font" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button">Create Playlist</button>                                        
+                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content modal-index-color">
+                                                    <div class="modal-header border-0">
+                                                        <h1 class="modal-title fs-5" id="staticBackdropLabel" style="color: white">Create Playlist</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body border-0">
+                                                        <div class="playlist-name-item">
+                                                            <input type="text" name="playlistName" required value=${sessionScope.playlist.name}>
+                                                            <label for="name">Name</label>
+                                                        </div>
+                                                        <input class="form-check-input" type="checkbox" name="shuffle-checkbox">
+                                                        <label class="form-check-label" style="color: white">
+                                                            Shuffle Playlist
+                                                        </label>
+                                                    </div>
+                                                    <div class="modal-footer border-0">
+                                                        <button type="submit" class="green-button-confirm spotify-font">Create</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -89,15 +112,15 @@
                                             <td>${"TRACK".equalsIgnoreCase(track.track.type) ? track.track.album.name : track.track.show.name}</td>
                                             <td>
                                                 <c:choose>
-                                                <c:when test='${"TRACK".equalsIgnoreCase(track.track.type)}'>
-                                                <c:forEach var="artist" items="${track.track.artists}" varStatus="artistcounter">
-                                                    <c:if test="${artistcounter.count == 1}">${artist.name}</c:if>
-                                                    <c:if test="${artistcounter.count != 1}">, ${artist.name}</c:if>
-                                                </c:forEach>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    ${track.track.show.publisher}
-                                                </c:otherwise>
+                                                    <c:when test='${"TRACK".equalsIgnoreCase(track.track.type)}'>
+                                                        <c:forEach var="artist" items="${track.track.artists}" varStatus="artistcounter">
+                                                            <c:if test="${artistcounter.count == 1}">${artist.name}</c:if>
+                                                            <c:if test="${artistcounter.count != 1}">, ${artist.name}</c:if>
+                                                        </c:forEach>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${track.track.show.publisher}
+                                                    </c:otherwise>
                                                 </c:choose>
                                             </td>
                                             <td>
@@ -122,7 +145,6 @@
                 </c:choose>
             </c:if>
         </section>
-
         <footer id="footer" class="spotify-font">This project is an external app, not from Spotify</footer>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

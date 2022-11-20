@@ -18,6 +18,13 @@ nav {
     padding: 10px 30px;
 }
 
+.green-button-confirm, .cancel-button {
+    color: white;
+    font-size: 15px;
+    font-weight: 900;
+    padding: 10px 20px;
+}
+
 /* Profile on Navbar */
 .profile_img {
     width: 30px;
@@ -97,4 +104,56 @@ nav {
 .created-playlist-name:hover{
     color: white;
     text-decoration: underline;
+}
+
+/*Modal*/
+.modal-index-color {
+    background-color: #282828;
+}
+
+.playlist-name-item{
+    position: relative;
+    margin-bottom: 15px;
+    background-color: #3e3e3e;
+    color: white;
+}
+.playlist-name-item input{
+    display: block;
+    width: 466px;
+    border: none;
+    height: 40px;
+    background-color: #3e3e3e;
+    transition: all .3s ease;
+    padding: 0 15px;
+    color: white;
+    outline: none;
+}
+.playlist-name-item input:focus {
+    border: none;
+}
+.playlist-name-item label{
+    position: absolute;
+    cursor: text;
+    z-index: 2;
+    top: 13px;
+    left: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0 10px;
+    color: white;
+    transition: all .3s ease
+}
+.playlist-name-item input:focus + label,
+.playlist-name-item input:valid + label{
+    font-size: 11px;
+    top: -8px;
+    border: none;
+}
+
+.form-check-input:checked {
+    background-color: #1ed05d;
+}
+
+.form-check-input:focus {
+    outline: none;
 }

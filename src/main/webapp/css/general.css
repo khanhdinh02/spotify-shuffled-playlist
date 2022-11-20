@@ -4,8 +4,16 @@
     font-weight: bold;
 }
 
-.green-button {
+.green-button, .green-button-confirm {
     background-color: #1ed05d;
+    border: none;
+    border-radius: 25px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.cancel-button {    
+    background-color: #5c636a;
     border: none;
     border-radius: 25px;
     padding: 10px;
@@ -19,6 +27,10 @@
 .justify-text {
     text-align: justify;
     text-justify: inter-word;
+}
+
+input {
+    outline: none;
 }
 
 .message {
